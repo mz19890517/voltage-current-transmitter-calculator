@@ -46,6 +46,27 @@ jobs:
           RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
         run: ./gradlew :app:assembleRelease --no-daemon --stacktrace
 
+      - name: Verify APK signature matches fixed keystore
+        env:
+          RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+        run: |
+          set -e
+          APK="$GITHUB_WORKSPACE/app/build/outputs/apk/release/app-release.apk"
+          BT=$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)
+          APKSIGNER="$ANDROID_HOME/build-tools/$BT/apksigner"
+          "$APKSIGNER" verify --print-certs "$APK"
+          APK_SHA=$("$APKSIGNER" verify --print-certs "$APK" \
+            | grep -oE "SHA-256 digest: [0-9a-f]+" | awk '{print $3}')
+          KS_SHA=$(keytool -list -v -keystore release.jks -storepass "$RELEASE_STORE_PASSWORD" \
+            -alias release 2>/dev/null | grep "SHA256:" | awk '{print $3}' | tr -d ':' | tr 'A-F' 'a-f')
+          echo "Model:  apk=$APK_SHA"
+          echo "Keystore: jks=$KS_SHA"
+          if [ "$APK_SHA" != "$KS_SHA" ]; then
+            echo "::error::签名不一致：APK 与固定密钥证书不匹配"
+            exit 1
+          fi
+          echo "签名校验通过：与固定 release.jks 证书一致"
+
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
