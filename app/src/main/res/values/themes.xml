@@ -6,6 +6,12 @@
         <item name="android:statusBarColor">?attr/colorPrimary</item>
     </style>
 
+    <style name="Theme.TransmitterCalc.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/ic_launcher_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.TransmitterCalc</item>
+    </style>
+
     <style name="SecTitle" parent="TextAppearance.Material3.TitleMedium">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">?attr/colorPrimary</item>
