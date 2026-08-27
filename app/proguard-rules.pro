@@ -1,0 +1,1 @@
+# Keep the default ProGuard rules that ship with AGP; minify is disabled.
