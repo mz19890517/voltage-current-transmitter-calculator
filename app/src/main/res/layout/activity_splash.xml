@@ -80,16 +80,6 @@
             android:text="进入" />
 
         <TextView
-            android:id="@+id/txtSplashHint"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:textColor="#616161"
-            android:textSize="12sp"
-            android:text="密码为当前时间（24 小时制 时+分，如 17:37 → 1737）" />
-
-        <TextView
             android:id="@+id/txtSplashErr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

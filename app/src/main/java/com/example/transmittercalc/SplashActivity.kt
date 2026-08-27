@@ -14,7 +14,6 @@ import java.util.Locale
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var pwdInput: TextInputEditText
-    private lateinit var txtHint: TextView
     private lateinit var txtErr: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +22,6 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         pwdInput = findViewById(R.id.pwdInput)
-        txtHint = findViewById(R.id.txtSplashHint)
         txtErr = findViewById(R.id.txtSplashErr)
 
         findViewById<android.view.View>(R.id.btnUnlock).setOnClickListener { checkPassword() }
