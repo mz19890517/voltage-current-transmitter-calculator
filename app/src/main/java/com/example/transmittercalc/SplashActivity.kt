@@ -47,11 +47,10 @@ class SplashActivity : AppCompatActivity() {
 
     private fun checkPassword() {
         val input = pwdInput.text?.toString()?.trim().orEmpty()
-        val pwd = currentPassword()
-        if (input == pwd) {
+        if (input == currentPassword()) {
             unlock()
         } else {
-            txtErr.text = "密码错误，当前应输入：$pwd"
+            txtErr.text = "密码错误，请重新输入"
         }
     }
 

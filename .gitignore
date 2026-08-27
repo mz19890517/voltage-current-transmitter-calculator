@@ -10,3 +10,5 @@ build/
 .cxx
 *.apk
 *.aab
+*.jks
+.signing*
