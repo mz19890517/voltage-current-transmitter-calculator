@@ -58,7 +58,7 @@ jobs:
           APK_SHA=$("$APKSIGNER" verify --print-certs "$APK" \
             | grep -oE "SHA-256 digest: [0-9a-f]+" | awk '{print $3}')
           KS_SHA=$(keytool -list -v -keystore release.jks -storepass "$RELEASE_STORE_PASSWORD" \
-            -alias release 2>/dev/null | grep "SHA256:" | awk '{print $3}' | tr -d ':' | tr 'A-F' 'a-f')
+            -alias release 2>/dev/null | grep "SHA256:" | awk '{print $2}' | tr -d ':' | tr 'A-F' 'a-f')
           echo "Model:  apk=$APK_SHA"
           echo "Keystore: jks=$KS_SHA"
           if [ "$APK_SHA" != "$KS_SHA" ]; then
