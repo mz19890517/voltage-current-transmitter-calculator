@@ -31,7 +31,20 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x gradlew
 
+      - name: Generate release signing keystore
+        run: |
+          keytool -genkeypair -v -keystore release.jks -alias release \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass androidbuild -keypass androidbuild \
+            -dname "CN=Transmitter Calc, OU=Dev, O=Personal, L=Local, S=State, C=CN"
+          chmod 600 release.jks
+
       - name: Build release APK
+        env:
+          RELEASE_STORE_FILE: ${{ github.workspace }}/release.jks
+          RELEASE_STORE_PASSWORD: androidbuild
+          RELEASE_KEY_ALIAS: release
+          RELEASE_KEY_PASSWORD: androidbuild
         run: ./gradlew :app:assembleRelease --no-daemon --stacktrace
 
       - name: Upload APK artifact

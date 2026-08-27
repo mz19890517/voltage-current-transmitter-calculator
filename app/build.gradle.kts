@@ -15,9 +15,21 @@ android {
         versionName = "1.0.0"
     }
 
+    signingConfigs {
+        if (System.getenv("RELEASE_STORE_FILE") != null) {
+            create("release") {
+                storeFile = file(System.getenv("RELEASE_STORE_FILE"))
+                storePassword = System.getenv("RELEASE_STORE_PASSWORD")
+                keyAlias = System.getenv("RELEASE_KEY_ALIAS")
+                keyPassword = System.getenv("RELEASE_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.findByName("release")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
